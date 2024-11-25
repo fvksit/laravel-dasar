@@ -19,16 +19,18 @@ use App\Http\Controllers\AuthenticationController;
 //     return view('welcome');
 // });
 
-// route resource book
-Route::resource('/books', BookController::class);
-
-
 Route::redirect('/', '/dashboard');
 
-// route resource authentication
-Route::get('/register', [AuthenticationController::class, 'register'])->name('register');
-Route::post('/store', [AuthenticationController::class, 'store'])->name('store');
-Route::get('/login', [AuthenticationController::class, 'login'])->name('login');
-Route::post('/authenticate', [AuthenticationController::class, 'authenticate'])->name('authenticate');
-Route::get('/dashboard', [AuthenticationController::class, 'dashboard'])->name('dashboard');
-Route::post('/logout', [AuthenticationController::class, 'logout'])->name('logout');
+Route::group(['middleware' => 'guest'], function () {
+    Route::get('/register', [AuthenticationController::class, 'register'])->name('register');
+    Route::post('/store', [AuthenticationController::class, 'store'])->name('store');
+    Route::get('/login', [AuthenticationController::class, 'login'])->name('login');
+    Route::post('/authenticate', [AuthenticationController::class, 'authenticate'])->name('authenticate');
+});
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/dashboard', [AuthenticationController::class, 'dashboard'])->name('dashboard');
+    // route book
+    Route::resource('books', BookController::class);
+    Route::post('/logout', [AuthenticationController::class, 'logout'])->name('logout');
+});
