@@ -22,6 +22,7 @@ class BookController extends Controller
      */
     public function create()
     {
+        // view create
         return view('books.create');
     }
 
@@ -30,6 +31,7 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
+        // menambahkan data baru
         $validatedData = $request->validate([
             'cover_image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
             'name' => ['required', 'string', 'max:255'],
