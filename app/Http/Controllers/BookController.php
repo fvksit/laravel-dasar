@@ -98,7 +98,7 @@ class BookController extends Controller
     public function destroy(Book $book)
     {
         $book = Book::find($book->id);
-        Storage::delete('public/' . $book->cover_image);
+        Storage::delete('public/'. $book->cover_image);
         $book->delete();
         return back()->with('success', 'Book deleted successfully');
     }
