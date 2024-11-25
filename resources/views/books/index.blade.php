@@ -42,7 +42,6 @@
                                         <td class="text-center">
                                             <a href="" class="btn btn-sm btn-dark"><i class="fa fa-eye"></i></a>
                                             <a href="" class="btn btn-sm btn-primary"><i class="fa fa-pencil-alt"></i></a>
-
                                             <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="" method="POST">
                                                 @csrf
                                                 @method('DELETE')
@@ -65,11 +64,9 @@
             </div>
         </div>
     </div>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
     <script>
         @if (session()->has('success'))
             toastr.success('{{ session('success') }}', 'BERHASIL!');
@@ -77,7 +74,5 @@
             toastr.error('{{ session('error') }}', 'GAGAL!');
         @endif
     </script>
-
 </body>
-
 </html>
