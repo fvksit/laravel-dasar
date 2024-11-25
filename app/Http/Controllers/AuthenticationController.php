@@ -11,15 +11,7 @@ use Illuminate\Support\Facades\Hash;
 class AuthenticationController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function dashboard()
-    {
-        return view('auth.dashboard');
-    }
-
-    /**
-     * Show the form for creating a new resource.
+     * Display a registration form.
      */
     public function register()
     {
@@ -27,22 +19,24 @@ class AuthenticationController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a new user.
      */
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', 'min:6'],
+            'name' => ['required', 'string', 'max:250'],
+            'email' => ['required', 'email', 'max:250', 'unique:users'],
+            'password' => ['required', 'min:6', 'confirmed'],
         ]);
-        
+
         User::create($validatedData);
-        return back()->withSuccess('User created successfully');
+
+        return back()
+            ->withSuccess('You have successfully registered');
     }
 
     /**
-     * Display the specified resource.
+     * Display a login form.
      */
     public function login()
     {
@@ -50,7 +44,7 @@ class AuthenticationController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Authenticate the user.
      */
     public function authenticate(Request $request)
     {
@@ -63,27 +57,33 @@ class AuthenticationController extends Controller
             return back()->withErrors([
                 'email' => 'Your provided credentials do not match in our records.',
             ])->onlyInput('email');
-
-            return to_route('dashboard')->withSuccess('You have successfully logged in!');
         }
+
+        return to_route('dashboard')
+            ->withSuccess('You have successfully logged in!');
     }
 
     /**
-     * Update the specified resource in storage.
+     * Display a dashboard to authenticated users.
+     */
+    public function dashboard()
+    {
+        return view('auth.dashboard');
+    }
+
+    /**
+     * Log out the user from application.
+     *
      */
     public function logout(Request $request)
     {
         Auth::logout();
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return to_route('login')->withSuccess('You have logged out successfully!');;
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return to_route('login')
+            ->withSuccess('You have logged out successfully!');
+        ;
     }
 }

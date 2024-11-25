@@ -15,12 +15,15 @@ use App\Http\Controllers\AuthenticationController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 // route resource book
 Route::resource('/books', BookController::class);
+
+
+Route::redirect('/', '/dashboard');
 
 // route resource authentication
 Route::get('/register', [AuthenticationController::class, 'register'])->name('register');
