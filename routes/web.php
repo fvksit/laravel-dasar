@@ -19,4 +19,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// route resource book
 Route::resource('/books', BookController::class);
