@@ -29,4 +29,9 @@ class BookController extends Controller
             'success' => 'Book Created successfully'
         ]);
     }
+
+    public function show(Book $book)
+    {
+        return response()->json($book);
+    }
 }
