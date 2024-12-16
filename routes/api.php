@@ -34,3 +34,4 @@ use Illuminate\Support\Facades\Auth;
 Route::apiResource('book', BookController::class);
 
 Route::post('register', [AuthenticationController::class, 'register']);
+Route::post('login', [AuthenticationController::class, 'login']);
