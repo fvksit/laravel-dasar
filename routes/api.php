@@ -29,5 +29,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // Route::delete('/books/{book}', [BookController::class, 'destroy']);
 
-
 Route::apiResource('book', BookController::class);
