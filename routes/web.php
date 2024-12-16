@@ -1,8 +1,7 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\BookController;
-use App\Http\Controllers\AuthenticationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,22 +14,18 @@ use App\Http\Controllers\AuthenticationController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-Route::redirect('/', '/dashboard');
-
-Route::group(['middleware' => 'guest'], function () {
-    Route::get('/register', [AuthenticationController::class, 'register'])->name('register');
-    Route::post('/store', [AuthenticationController::class, 'store'])->name('store');
-    Route::get('/login', [AuthenticationController::class, 'login'])->name('login');
-    Route::post('/authenticate', [AuthenticationController::class, 'authenticate'])->name('authenticate');
+Route::get('/', function () {
+    return view('welcome');
 });
 
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('/dashboard', [AuthenticationController::class, 'dashboard'])->name('dashboard');
-    // route book
-    Route::resource('books', BookController::class);
-    Route::post('/logout', [AuthenticationController::class, 'logout'])->name('logout');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+require __DIR__.'/auth.php';
